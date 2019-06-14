@@ -14,10 +14,8 @@ export class HashObjectState implements ObjectState {
 
   public checkForConflict(serverState: ObjectStateData, clientState: ObjectStateData) {
     const filteredServerState: any = {};
-    for (const field in clientState) {
-      if (clientState.hasOwnProperty(field)) {
-        filteredServerState[field] = serverState[field];
-      }
+    for (const key of Object.keys(clientState)) {
+      filteredServerState[key] = serverState[key];
     }
     if (this.hash(filteredServerState) !== this.hash(clientState)) {
       throw new ObjectConflictError({

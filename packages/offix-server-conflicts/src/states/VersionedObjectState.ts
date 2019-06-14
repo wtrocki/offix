@@ -20,11 +20,9 @@ export class VersionedObjectState implements ObjectState {
     if (serverState.version && clientState.version) {
       if (serverState.version !== clientState.version) {
         const filteredServerState: any = {};
-        for (const field in clientState) {
-          if (clientState.hasOwnProperty(field)) {
-            filteredServerState[field] = serverState[field];
-          }
-        }
+        for (const key of Object.keys(clientState)) {
+          filteredServerState[key] = serverState[key];
+         }
         throw new ObjectConflictError({
           serverState,
           clientState
