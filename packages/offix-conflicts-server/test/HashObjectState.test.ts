@@ -6,7 +6,7 @@ test("With conflict", (t) => {
   const objectState = new HashObjectState(hashMethod);
   const serverData = { name: "AeroGear", ignoredProperty: "test" };
   const clientData = { name: "Red Hat" };
-  t.throws(()=>{
+  t.throws(() => {
     objectState.checkForConflict(serverData, clientData);
   });
 

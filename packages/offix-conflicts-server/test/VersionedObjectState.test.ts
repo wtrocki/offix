@@ -5,7 +5,7 @@ test("With conflict", (t) => {
   const objectState = new VersionedObjectState();
   const serverData = { name: "AeroGear", version: 1 };
   const clientData = { name: "Red Hat", version: 2 };
-  t.throws(()=>{
+  t.throws(() => {
     objectState.checkForConflict(serverData, clientData);
   });
 });
@@ -15,7 +15,7 @@ test("Without conflict", (t) => {
   const serverData = { name: "AeroGear", version: 1 };
   const clientData = { name: "AeroGear", version: 1 };
 
-  t.notThrows(()=>{
+  t.notThrows(() => {
     objectState.checkForConflict(serverData, clientData);
     t.deepEqual(clientData.version, 2);
   });
