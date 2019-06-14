@@ -1,6 +1,6 @@
-import { ConflictResolution } from "../api/ConflictResolution";
 import { ObjectState } from "../api/ObjectState";
 import { ObjectStateData } from "../api/ObjectStateData";
+import { ObjectConflictError } from "../api/ObjectConflictError";
 
 /**
  * Object state manager using a version field
@@ -25,7 +25,10 @@ export class VersionedObjectState implements ObjectState {
             filteredServerState[field] = serverState[field];
           }
         }
-        this.resolveOnClient(serverState, clientState);
+        throw new ObjectConflictError({
+          serverState,
+          clientState
+        });
       }
     } else {
       throw new Error(`Supplied object is missing version field required to determine conflict.
@@ -42,11 +45,6 @@ export class VersionedObjectState implements ObjectState {
     }
     return currentObjectState;
   }
-
-  private resolveOnClient(serverState: ObjectStateData, clientState: ObjectStateData) {
-    throw new ConflictResolution(serverState, clientState);
-  }
-
 }
 
 /**

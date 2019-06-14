@@ -1,5 +1,5 @@
 import test from "ava";
-import { VersionedObjectState } from "../src";
+import { VersionedObjectState } from "../src/states/VersionedObjectState";
 
 test("With conflict", (t) => {
   const objectState = new VersionedObjectState();

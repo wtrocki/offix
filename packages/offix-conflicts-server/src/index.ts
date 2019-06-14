@@ -1,6 +1,6 @@
 // Conflict api
 export * from "./api/ObjectState";
-export * from "./api/ConflictResolution";
+export * from "./api/ObjectConflictError";
 export * from "./api/ObjectStateData";
 
 // State implementations

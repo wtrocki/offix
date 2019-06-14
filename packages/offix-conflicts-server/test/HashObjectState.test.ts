@@ -1,5 +1,5 @@
 import test from "ava";
-import { HashObjectState } from "../src";
+import { HashObjectState } from "../src/states/HashObjectState";
 
 test("With conflict", (t) => {
   const hashMethod = (data: any) => JSON.stringify(data);
