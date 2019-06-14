@@ -19,6 +19,12 @@ export class VersionedObjectState implements ObjectState {
   public checkForConflict(serverState: ObjectStateData, clientState: ObjectStateData) {
     if (serverState.version && clientState.version) {
       if (serverState.version !== clientState.version) {
+        const filteredServerState: any = {};
+        for (const field in clientState) {
+          if (clientState.hasOwnProperty(field)) {
+            filteredServerState[field] = serverState[field];
+          }
+        }
         this.resolveOnClient(serverState, clientState);
       }
     } else {
@@ -28,7 +34,7 @@ export class VersionedObjectState implements ObjectState {
     this.nextState(clientState);
   }
 
-  public nextState(currentObjectState: ObjectStateData) {
+  private nextState(currentObjectState: ObjectStateData) {
     if (currentObjectState.version) {
       currentObjectState.version = currentObjectState.version + 1;
     } else {

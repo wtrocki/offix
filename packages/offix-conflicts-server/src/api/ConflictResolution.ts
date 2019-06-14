@@ -7,6 +7,7 @@ import { ObjectStateData } from "./ObjectStateData";
  * and eventually perform client side conflict resolution
  */
 export interface ConflictData {
+  
   /**
    * Data that was modified on the server.
    * Source of the conflict with additional fields that changed over the time.
