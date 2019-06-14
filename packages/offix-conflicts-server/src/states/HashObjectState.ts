@@ -1,5 +1,6 @@
 import { ObjectState } from "../api/ObjectState";
 import { ObjectStateData } from "../api/ObjectStateData";
+import { ConflictResolution } from "..";
 
 /**
  * Object state manager using a hashing method provided by user
@@ -19,8 +20,11 @@ export class HashObjectState implements ObjectState {
       }
     }
     if (this.hash(filteredServerState) !== this.hash(clientState)) {
-      return true;
+      this.resolveOnClient(serverState, clientState);
     }
-    return false;
+  }
+
+  private resolveOnClient(serverState: ObjectStateData, clientState: ObjectStateData) {
+    throw new ConflictResolution(serverState, clientState);
   }
 }

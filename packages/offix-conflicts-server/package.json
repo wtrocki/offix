@@ -1,5 +1,5 @@
 {
-  "name": "offix-server",
+  "name": "offix-conflicts-server",
   "version": "0.6.0",
   "description": "Offix GraphQL server",
   "main": "dist/index.js",
