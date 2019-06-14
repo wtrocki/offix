@@ -1,5 +1,5 @@
 const { gql } = require('@aerogear/voyager-server')
-const { conflictHandler, strategies } = require('@aerogear/voyager-conflicts')
+const { conflictHandler } = require('offix-server-conflicts')
 const { PubSub } = require('graphql-subscriptions');
 const fs = require('fs');
 
@@ -81,96 +81,8 @@ const resolvers = {
       console.log('update: ', args);
       const index = data.findIndex(item => item.id === args.id);
 
-      if (args.conflictResolution) {
-        if (conflictHandler.hasConflict(data[index], args)) {
-          if (args.conflictResolution === 'resolveOnClient') {
-            const { response } = conflictHandler.resolveOnClient(data[index], args)
-            return response
-          } else if (args.conflictResolution === 'resolveOnServer') {
-            const { resolvedState, response } = await conflictHandler.resolveOnServer(strategies.clientWins, data[index], args)
-            data[index] = {...(data[index]), ...resolvedState};
-            return response;
-          } else if (args.conflictResolution === 'reject') {
-            return conflictHandler.reject(data[index], args);
-          }
-        }
-        conflictHandler.nextState(args)
-      }
-
-      data[index] = {...(data[index]), ...args};
-      return data[index];
-    },
-    updateTaskConflictReject: async (_, args) => {
-      console.log('update: ', args);
-      const index = data.findIndex(item => item.id === args.id);
-
-      if (conflictHandler.hasConflict(data[index], args)) {
-        return conflictHandler.reject(data[index], args);
-      }
-      conflictHandler.nextState(args)
-
-      data[index] = {...(data[index]), ...args};
-      return data[index];
-    },
-    updateTaskClientResolution: async (_, args) => {
-      console.log('update: ', args);
-      const index = data.findIndex(item => item.id === args.id);
-
-      if (conflictHandler.hasConflict(data[index], args)) {
-        const { response } = conflictHandler.resolveOnClient(data[index], args)
-        return response
-      }
-      conflictHandler.nextState(args)
-
-      data[index] = {...(data[index]), ...args};
-      return data[index];
-    },
-    updateTaskCustomClientResolution: async (_, args) => {
-      console.log('update: ', args);
-      const index = data.findIndex(item => item.id === args.id);
-
-      if (conflictHandler.hasConflict(data[index], args)) {
-        const { response } = conflictHandler.resolveOnClient(data[index], args)
-        return response
-      }
-      conflictHandler.nextState(args)
-
-      data[index] = {...(data[index]), ...args};
-      return data[index];
-    },
-    updateTaskServerResolution: async (_, args) => {
-      console.log('update: ', args);
-      const index = data.findIndex(item => item.id === args.id);
-
-      if (conflictHandler.hasConflict(data[index], args)) {
-        const { resolvedState, response } = await conflictHandler.resolveOnServer(strategies.clientWins, data[index], args)
-        data[index] = {...(data[index]), ...resolvedState};
-        return response;
-      }
-      conflictHandler.nextState(args)
-
-      data[index] = {...(data[index]), ...args};
-      return data[index];
-    },
-    updateTaskCustomStrategy: async (_, args) => {
-      console.log('update: ', args);
-      const index = data.findIndex(item => item.id === args.id);
-
-      function customResolutionStrategy(serverState, clientState) {
-        return {
-          ...serverState,
-          ...clientState,
-          title: `${serverState.title} ${clientState.title}`
-        }
-      }
-
-      if (conflictHandler.hasConflict(data[index], args)) {
-        const { resolvedState, response } = await conflictHandler.resolveOnServer(customResolutionStrategy, data[index], args)
-        data[index] = {...(data[index]), ...resolvedState};
-        return response;
-      }
-      conflictHandler.nextState(args)
-
+      conflictHandler.checkForConflict(data[index], args)
+    
       data[index] = {...(data[index]), ...args};
       return data[index];
     },

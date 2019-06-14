@@ -25,6 +25,7 @@
     "karma-mocha-reporter": "2.2.5",
     "karma-webpack": "4.0.2",
     "mocha": "6.0.2",
+    "offix-server-conflicts": "^0.6.0",
     "webpack": "4.29.6"
   },
   "devDependencies": {}

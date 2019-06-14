@@ -1,6 +1,7 @@
 import { ObjectState } from "../api/ObjectState";
 import { ObjectStateData } from "../api/ObjectStateData";
 import { ObjectConflictError } from "../api/ObjectConflictError";
+import { conflictHandler } from "..";
 
 /**
  * Object state manager using a version field
@@ -22,7 +23,7 @@ export class VersionedObjectState implements ObjectState {
         const filteredServerState: any = {};
         for (const key of Object.keys(clientState)) {
           filteredServerState[key] = serverState[key];
-         }
+        }
         throw new ObjectConflictError({
           serverState,
           clientState
