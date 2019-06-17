@@ -22,11 +22,6 @@ type Query {
 type Mutation {
   createTask(title: String!, description: String!): Task
   updateTask(id: ID!, title: String, description: String, version: Int!): Task
-  updateTaskConflictReject(id: ID!, title: String, description: String, version: Int!): Task
-  updateTaskClientResolution(id: ID!, title: String, description: String, version: Int!): Task
-  updateTaskCustomClientResolution(id: ID!, title: String, description: String, version: Int!): Task
-  updateTaskServerResolution(id: ID!, title: String, description: String, version: Int!): Task
-  updateTaskCustomStrategy(id: ID!, title: String, description: String, version: Int!): Task
   deleteTask(id: ID!): ID
   onlineOnly(id: ID!): ID
   singleUpload(file: Upload!): File!
