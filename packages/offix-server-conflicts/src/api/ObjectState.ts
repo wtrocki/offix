@@ -1,4 +1,5 @@
 import { ObjectStateData } from "./ObjectStateData";
+import { ObjectConflictError } from "./ObjectConflictError";
 
 /**
  * Interface for handling changing state of the object.
@@ -14,7 +15,7 @@ export interface ObjectState {
    *
    * @param serverState the data currently on the server
    * @param clientState the data the client wishes to perform some mutation with
-   * @throws ObjectConflictError when conflict happens
+   * @return ObjectConflictError when conflict happens or undefined otherwise
    */
-  checkForConflict(serverState: ObjectStateData, clientState: ObjectStateData): void;
+  checkForConflict(serverState: ObjectStateData, clientState: ObjectStateData): ObjectConflictError | undefined;
 }

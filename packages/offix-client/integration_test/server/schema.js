@@ -76,7 +76,10 @@ const resolvers = {
       console.log('update: ', args);
       const index = data.findIndex(item => item.id === args.id);
 
-      conflictHandler.checkForConflict(data[index], args)
+      const conflict = conflictHandler.checkForConflict(data[index], args)
+      if(conflict){
+        throw conflict;
+      }
     
       data[index] = {...(data[index]), ...args};
       return data[index];

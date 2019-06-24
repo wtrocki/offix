@@ -18,11 +18,11 @@ export class HashObjectState implements ObjectState {
       filteredServerState[key] = serverState[key];
     }
     if (this.hash(filteredServerState) !== this.hash(clientState)) {
-      throw new ObjectConflictError({
+      return new ObjectConflictError({
         serverState,
         clientState
       });
     }
+    return;
   }
-
 }

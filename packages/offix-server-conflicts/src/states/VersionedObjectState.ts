@@ -24,7 +24,7 @@ export class VersionedObjectState implements ObjectState {
         for (const key of Object.keys(clientState)) {
           filteredServerState[key] = serverState[key];
         }
-        throw new ObjectConflictError({
+        return new ObjectConflictError({
           serverState,
           clientState
         });
