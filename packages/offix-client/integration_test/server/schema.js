@@ -16,6 +16,7 @@ type Task {
 type Query {
   allTasks(first: Int, after: String): [Task]
   getTask(id: ID!): Task
+  findTaskByTitle(title: String!): Task
   uploads: [File]
 }
 
@@ -61,6 +62,9 @@ const resolvers = {
     },
     getTask: (_, args) => {
       return data.find(item => item.id === args.id);
+    },
+    findTaskByTitle: (_, args) => {
+      return data.find(item => item.title === args.title);
     },
     uploads: () => {
       return files
