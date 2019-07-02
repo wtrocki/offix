@@ -22,13 +22,13 @@ export interface ConflictData {
 
 /**
  * Conflict error that is being returned when server
- * Error specific to Voyager framework
+ * Error specific to Offix Conflict framework
  */
 export class ObjectConflictError extends Error {
   public conflictInfo: ConflictData;
 
   constructor(data: ConflictData) {
-    super("VoyagerConflict");
+    super("OffixConflict");
     this.conflictInfo = data;
   }
 }
