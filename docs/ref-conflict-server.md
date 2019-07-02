@@ -34,7 +34,7 @@ type Greeting {
     msg: String
     version: Int
   }
-```n b 
+```
 
 3. Add example mutations
 
@@ -51,7 +51,10 @@ Every conflict can be handled using a set of predefined steps
 ```javascript
     // 1. Read data from data source
     // 2. Check for conflicts
-    conflictHandler.checkForConflicts(serverData,clientData)
+    const conflict = conflictHandler.checkForConflicts(serverData,clientData)
+    if(conflict) {
+        throw conflict;
+    }
     // 5. Save object to data source
 ```
 
@@ -59,17 +62,7 @@ Resolvers can be implemented to handle conflicts on client .
 
 ## Implementing Custom Conflict Mechanism
 
-The`ObjectState` interface is a complete conflict resolution implementation that provides a set of rules to detect and handle conflict. Interface will allow developers to handle conflict on the client. Client side application will need to match the server side implementation 
-For example when using `lastModified` field as a way to detect conflicts:
+The`ObjectState` interface is a complete conflict resolution implementation that provides a set of rules to detect and handle conflict. Interface will allow developers to handle conflict on the client. Client side application will need to match the server side implementation. Currently we support following implementations:
 
-```typescript
-  public checkForConflict(serverState: ObjectStateData, clientState: ObjectStateData) {
-    if(serverState.lastModified === clientState.lastModified){
-        throw new ObjectConflictError({
-          serverState,
-          clientState
-        });
-    }
-    clientState.lastModified = new Date().getTime();
-  }
-```
+- `VersionObjectState` - allows to operate based on version field in schema
+- `HashObjectState` - allows to operate based on object hashes
